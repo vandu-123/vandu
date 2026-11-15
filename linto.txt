@@ -1,0 +1,82 @@
+Network Analysis Commands
+1. ping: Reachability and Latency
+Command
+Why it is used
+ping -c 4 google.com
+Checks if a host is reachable and measures round-trip time.
+ping -n 4 google.com
+Same as above on Windows (-n sets the count).
+ping -c 4 -s 1472 -M do host
+Tests MTU size. The don't-fragment flag shows whether large packets can pass.
+ping -6 ipv6.google.com
+Tests IPv6 connectivity.
+2. traceroute / mtr: Path Analysis
+Command
+Why it is used
+traceroute google.com
+Shows each router hop to the destination, to find where the path slows or breaks.
+tracert google.com
+Windows equivalent.
+traceroute -T -p 443 host
+Uses TCP on port 443 to get through firewalls that block ICMP/UDP.
+mtr -rwc 50 google.com
+Combines ping and traceroute; gives per-hop packet loss and latency over time.
+3. netstat / ss: Local Connections and Ports
+Command
+Why it is used
+ss -tulnp
+Lists listening TCP/UDP ports and the processes using them.
+ss -tn state established
+Shows active connections.
+ss -s
+Summary of connection counts by state.
+netstat -ano
+Windows: lists all connections with the process ID (PID).
+tasklist /fi "PID eq 1234"
+Maps a PID from netstat to a program name.
+netstat -rn
+Displays the routing table.
+4. nmap: Discovery and Port Scanning
+Command
+Why it is used
+nmap -sn 192.168.1.0/24
+Discovers live hosts on a network without scanning ports.
+nmap 192.168.1.10
+Scans the 1000 most common ports.
+nmap -p 22,80,443 host
+Scans only specific ports.
+nmap -p- host
+Scans all 65535 ports to find unusual services.
+nmap -sV host
+Detects the service and version on each open port.
+nmap -O host
+Guesses the operating system (needs root).
+nmap -A host
+Aggressive scan: version, OS, scripts and traceroute together.
+nmap -sU --top-ports 50 host
+Scans common UDP ports (DNS, SNMP, DHCP).
+nmap -Pn host
+Skips host discovery, for hosts that block ping.
+nmap -oA results host
+Saves output in all formats for reporting.
+nmap --script vuln host
+Runs scripts that check for known vulnerabilities.
+5. DNS Lookup
+Command
+Why it is used
+dig example.com
+Gets the A record (IPv4) with full response details.
+dig +short example.com
+Prints only the answer.
+dig example.com MX
+Finds mail servers for a domain.
+dig example.com NS
+Finds the authoritative name servers.
+dig example.com TXT
+Shows SPF, DKIM and domain verification records.
+dig -x 8.8.8.8
+Reverse lookup: IP to hostname.
+dig @1.1.1.1 example.com
+Queries a specific DNS server, to compare against your default resolver.
+host example.com
+Quick, simple DNS lookup.
