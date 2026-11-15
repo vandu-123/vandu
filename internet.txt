@@ -1,0 +1,90 @@
+### Practical: Network Analysis Using Command-Line Utilities (Nmap, Traceroute, Netstat and Ping)
+
+### 1\. Aim
+
+To analyse network connectivity, identify active hosts, trace network routes and monitor network connections using command-line utilities.
+
+### 2\. Requirements
+
+* Kali Linux
+
+* Terminal
+
+* Internet or local network connection
+
+* Nmap, Traceroute, Netstat and Ping utilities
+
+### 3\. Procedure
+
+Step 1: Check network connectivity using PING.
+
+```bash
+ping -c 4 google.com
+```
+
+* Checks whether the destination is reachable.
+
+* `-c 4` sends four packets.
+
+Step 2: Scan a host using NMAP.
+
+```bash
+nmap scanme.nmap.org
+```
+
+\- Identifies open, closed and filtered ports on the authorized test host.
+
+Step 3: Perform a traceroute.
+
+```bash
+traceroute google.com
+```
+
+* Displays the network path taken by packets to reach the destination.
+
+* Shows intermediate routers (hops).
+
+Step 4: Display network connections using NETSTAT.
+
+```bash
+netstat -ant
+```
+
+* Displays TCP network connections.
+
+* `-a` displays all connections and listening ports.
+
+* `-n` displays numerical addresses.
+
+* `-t` displays TCP connections.
+
+Step 5: Display listening ports.
+
+```bash
+netstat -tuln
+```
+
+\- Displays TCP and UDP listening ports.
+
+Step 6: Display network interface information.
+
+```bash
+ip addr
+```
+
+\- Displays IP addresses and network interfaces.
+
+### 4\. Observation
+
+| Command       | Observation                           |
+| ------------- | ------------------------------------- |
+| ping          | Checks network connectivity           |
+| nmap          | Identifies open and closed ports      |
+| traceroute    | Displays the route to the destination |
+| netstat -ant  | Displays active TCP connections       |
+| netstat -tuln | Displays listening ports              |
+| ip addr       | Displays IP address information       |
+
+### 5\. Result
+
+Network analysis was successfully performed using Nmap, Traceroute, Netstat and Ping commands to examine network connectivity, port status, routing paths and active network connections.
