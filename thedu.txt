@@ -1,0 +1,50 @@
+Analysing System Logs Using grep, awk, and sed Commands
+1. List available system log files
+ls -lh /var/log/
+
+2. Display the beginning of the authentication log
+sudo head /var/log/auth.log
+
+3. Search for failed login attempts
+sudo grep "Failed password" /var/log/auth.log
+
+4. Count failed login attempts
+sudo grep -c "Failed password" /var/log/auth.log
+
+5. Search for successful login attempts
+sudo grep "Accepted" /var/log/auth.log
+
+6. Search for SSH-related entries
+sudo grep "sshd" /var/log/auth.log
+
+7. Search for multiple security-related events
+sudo grep -Ei "failed|error|invalid|denied" /var/log/auth.log
+
+8. Extract selected fields from failed-login entries
+sudo grep "Failed password" /var/log/auth.log | awk '{print $1, $2, $3, $9, $11}'
+
+9. Extract source IP addresses
+sudo grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}'
+
+10. Count occurrences of each source IP
+sudo grep "Failed password" /var/log/auth.log | awk '{print $(NF-3)}' | sort | uniq -c
+
+11. Display only failed-password entries using sed
+sudo sed -n '/Failed password/p' /var/log/auth.log
+
+12. Replace "Failed" with "FAILED" in displayed output
+sudo sed 's/Failed/FAILED/' /var/log/auth.log | head
+
+13. Display the first 20 lines
+sudo sed -n '1,20p' /var/log/auth.log
+
+14. Remove blank lines from displayed output
+sudo sed '/^$/d' /var/log/auth.log
+
+15. Extract date, time, and source IP
+sudo grep "Failed password" /var/log/auth.log | \
+awk '{print $1, $2, $3, $(NF-3)}'
+
+16. Count and sort failed-login attempts by IP
+sudo grep "Failed password" /var/log/auth.log | \
+awk '{print $(NF-3)}' | sort | uniq -c | sort -nr
