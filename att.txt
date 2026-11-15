@@ -1,0 +1,13 @@
+Experiment: Imaging a Drive Using Write Blocker and Verifying Integrity with Hashing and SMART Attributes 1.Evidence drive HDD/SSD detected
+2 Write blocker Connected successfully
+3 Imaging tool FTK Imager
+4 Image format E01 / RAW
+5 Imaging process Completed
+6 Hash algorithm MD5 / SHA-256
+7 Hash verification Matched
+8 SMART status Good
+9 Drive temperature Recorded
+10 Reallocated sectors Recorded
+3. Result
+The forensic image of the storage drive was successfully created using a write blocker. The integrity of the acquired image was verified through hash value comparison, and the SMART attributes were examined to assess the health condition of the storage device.
+Important: In your practical record, write "Hash verification matched" and "SMART status Good" only if those are the actual results obtained during your experiment
