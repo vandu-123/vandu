@@ -1,0 +1,93 @@
+11.16 12:19 AM
+### Experiment 1: Setting Up a Forensic Workstation and Installation of Tools
+
+### 1\. Aim
+
+To set up a forensic workstation by installing and configuring digital forensic tools required for the investigation and analysis of digital evidence.
+
+### 2\. Theory
+
+A forensic workstation is a dedicated computer system used by digital forensic investigators to acquire, preserve, examine and analyse digital evidence from computers, storage devices and other digital media.
+
+It is designed to maintain the integrity of digital evidence and prevent accidental modification during forensic investigations.
+
+A forensic workstation generally consists of:
+
+* Computer with sufficient RAM and storage.
+
+* Forensic operating system.
+
+* Write blocker.
+
+* External storage devices.
+
+* Digital forensic software and tools.
+
+### 3\. Requirements
+
+Hardware:
+
+* Computer or laptop.
+
+* Sufficient RAM and hard disk space.
+
+* External hard disk or USB drive.
+
+* Write blocker.
+
+Software:
+
+* Windows or Linux operating system.
+
+* Autopsy.
+
+* FTK Imager.
+
+* Wireshark.
+
+* Volatility.
+
+* Sleuth Kit.
+
+### 4\. Installation of Forensic Tools
+
+| Tool       | Purpose                        |
+| ---------- | ------------------------------ |
+| Autopsy    | Disk image analysis            |
+| FTK Imager | Forensic image acquisition     |
+| EnCase     | Digital forensic investigation |
+| Wireshark  | Network packet analysis        |
+| Volatility | Memory forensics               |
+| Sleuth Kit | File system analysis           |
+
+### 5\. Important Concepts
+
+1\. Write Blocker: A device or software mechanism that prevents writing or modifying data on the original evidence storage device.
+
+2\. Hashing: A process used to generate a unique hash value to verify the integrity of digital evidence.
+
+3\. Disk Imaging: Creating a bit-by-bit forensic copy of a storage device.
+
+4\. Evidence Preservation: Maintaining digital evidence without alteration.
+
+5\. Chain of Custody: A documented record of who collected, handled, transferred and examined the evidence.
+
+### 6\. Importance of a Forensic Workstation
+
+* Preserves the integrity of digital evidence.
+
+* Helps investigators analyse digital data.
+
+* Supports multiple forensic tools.
+
+* Prevents accidental modification of original evidence.
+
+* Helps maintain proper investigation records.
+
+* Supports reliable forensic examination.
+
+### 7\. Result
+
+A forensic workstation was successfully set up with the required digital forensic tools for acquiring, preserving and analysing digital evidence.
+
+
