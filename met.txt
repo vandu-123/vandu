@@ -1,0 +1,69 @@
+### Experiment: Recovering Deleted Files Using Hex Editor and Analysing Metadata
+
+### 1\. Procedure
+
+* Switch on the forensic workstation.
+
+* Connect the storage device containing deleted files.
+
+* Open the forensic tool or Hex Editor.
+
+* Select and open the forensic disk image.
+
+* Examine the file system structure.
+
+* Identify deleted file entries in the file system.
+
+* Locate the relevant data using the available file-system information.
+
+* Examine the hexadecimal values of the deleted file data.
+
+* Identify file signatures (magic numbers) to determine the file type.
+
+* Recover the deleted file data when it is available.
+
+* Save the recovered file separately without modifying the original evidence.
+
+* Open the recovered file and verify its contents.
+
+* Analyse metadata such as file name, file type, size, timestamps and other available properties.
+
+* Record the recovery details and observations.
+
+### 2\. Observation
+
+The following observations were recorded during the experiment:
+
+| S.No | Parameter        | Observation               |
+| ---- | ---------------- | ------------------------- |
+| 1    | Forensic tool    | Hex Editor                |
+| 2    | Evidence source  | Disk image                |
+| 3    | File system      | FAT32 / NTFS              |
+| 4    | Deleted file     | Identified                |
+| 5    | File signature   | Examined                  |
+| 6    | Hexadecimal data | Analysed                  |
+| 7    | File recovery    | Successful / Unsuccessful |
+| 8    | File name        | Recorded                  |
+| 9    | File size        | Recorded                  |
+| 10   | Metadata         | Analysed                  |
+
+### 3\. Result
+
+Deleted file entries were identified and examined using a Hex Editor. File signatures and hexadecimal data were analysed to recover available deleted file contents. The recovered file metadata, including file type, size and timestamps, was also examined.
+
+### Important Viva Questions and Answers
+
+| Question                            | Answer                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------- |
+| What is a Hex Editor?               | A tool used to view and edit binary data in hexadecimal format.           |
+| What is file recovery?              | The process of retrieving deleted or lost files.                          |
+| What is metadata?                   | Data that describes information about a file.                             |
+| What is a file signature?           | A unique byte pattern used to identify a file type.                       |
+| What is a magic number?             | A specific hexadecimal value at the beginning of a file.                  |
+| What is FAT32?                      | File Allocation Table 32, a file system.                                  |
+| What is NTFS?                       | New Technology File System.                                               |
+| What is a deleted file?             | A file marked as deleted by the file system.                              |
+| What is hexadecimal?                | A base-16 number system using 0–9 and A–F.                                |
+| Can all deleted files be recovered? | No, recovery depends on whether the data has been overwritten or damaged. |
+
+Important practical point: Always work on a forensic copy of the evidence, not the original storage device. Metadata may also be incomplete or unavailable after deletion.
