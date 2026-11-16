@@ -1,0 +1,66 @@
+
+Practical 7: Security of Web Servers (Apache, IIS, and Nginx)
+
+
+Aim
+
+To study common web server vulnerabilities and understand security measures used to secure Apache, Microsoft IIS, and Nginx web servers.
+
+Theory
+
+A web server is software that processes HTTP and HTTPS requests from clients (such as web browsers) and delivers web pages, files, or application responses. Web server security focuses on protecting the server, hosted applications, data, and network communication against unauthorized access and cyberattacks.
+The three most widely used web servers are Apache HTTP Server, Microsoft Internet Information Services (IIS), and Nginx.
+
+A. Common Web Server Vulnerabilities
+
+• Outdated Software: Older server versions often contain unpatched security flaws that attackers can exploit.
+• Default Configurations: Unchanged default settings, sample pages, and unused features can expose sensitive system details.
+• Directory Listing: Leaving directory browsing enabled allows visitors to view raw files and folder structures inside a web directory.
+• Weak Permissions: Improper file and folder permissions may let unauthorized users read, modify, or upload malicious web content.
+• Unencrypted Communication: Using plain HTTP instead of HTTPS exposes sensitive data (such as credentials and session tokens) to interception.
+• Information Disclosure: Default server banners, detailed error messages, and debug pages can reveal software versions, file paths, and backend architecture.
+• Weak Access Control: Poor authentication and authorization policies can allow unauthorized users to reach administrative interfaces or restricted directories.
+• Denial-of-Service (DoS): Uncontrolled or excessive traffic can exhaust CPU, memory, or bandwidth, making the web service unavailable.
+
+B. Security of Apache HTTP Server
+
+Apache is an open-source, cross-platform web server widely used to host websites and dynamic web applications.
+• Patch Management: Keep the core Apache server and all active modules updated with the latest security patches.
+• Minimalist Configuration: Disable unnecessary modules and services to reduce the attack surface.
+• Access Restrictions: Configure strict directory access controls using directives such as Require all denied where appropriate.
+• Disable Directory Listing: Remove or avoid the Indexes option so directory contents are not publicly listed.
+• Transport Encryption: Enforce HTTPS using valid SSL/TLS certificates.
+• File System Hardening: Restrict read/write permissions on configuration files and website root directories.
+• Response Hardening: Configure HTTP security headers and custom error pages to prevent server version leakage.
+• Log Monitoring: Enable and regularly review access and error logs to detect suspicious request patterns.
+
+C. Security of Microsoft IIS
+
+Internet Information Services (IIS) is Microsoft's native web server built for Windows Server environments.
+• Regular Updates: Apply Windows security updates and IIS patches promptly.
+• Attack Surface Reduction: Disable unused IIS role services, modules, and handlers.
+• Application Pool Isolation: Run separate web applications in dedicated Application Pools so a compromise in one site does not affect others.
+• Least Privilege: Apply strict NTFS permissions to website directories and use low-privilege application pool identities.
+• Strong Authentication: Configure Windows Authentication or other secure authentication mechanisms for restricted areas.
+• HTTPS Enforcement: Bind valid TLS certificates to sites and redirect HTTP traffic to HTTPS.
+• Disable Directory Browsing: Keep the Directory Browsing feature disabled unless explicitly required.
+• Auditing and Logging: Enable W3C IIS logging and monitor Windows Event Viewer for security anomalies.
+
+D. Security of Nginx
+
+Nginx is a high-performance web server that also operates as a reverse proxy, load balancer, and HTTP cache.
+• Version Maintenance: Install stable, supported versions of Nginx and apply security updates regularly.
+• Module Control: Compile or enable only essential modules and disable unused services.
+• IP and Resource Filtering: Restrict access to sensitive endpoints using allow and deny directives.
+• TLS Hardening: Enable HTTPS with strong TLS protocols and cipher suites.
+• Banner Suppression: Hide or minimize server version details in HTTP response headers (server_tokens off).
+• Resource Limits: Set strict client request body sizes, buffer limits, and connection timeouts to mitigate DoS attacks.
+• File Access Protection: Block public access to hidden files, configuration files, and sensitive directories.
+• Continuous Logging: Maintain detailed access and error logs for auditing and forensic investigation.
+
+
+
+
+Result
+
+The security features, common vulnerabilities, and recommended hardening measures for Apache, IIS, and Nginx web servers were studied and compared. The importance of secure configuration, regular updates, access control, HTTPS enforcement, and log monitoring in protecting web servers was understood.

@@ -1,0 +1,79 @@
+
+Procedure (With Separated Commands)
+
+
+Part A: Configure Windows Server 2022
+
+1. Check the Windows Server IP Address
+Log in to Windows Server 2022, open Command Prompt, and note down the IPv4 Address (e.g., 192.168.1.10).
+cmd
+ipconfig
+Use code with caution.
+2. Open Windows Defender Firewall with Advanced Security
+Open Server Manager → Tools → Windows Defender Firewall with Advanced Security, or press Win + R and run:
+cmd
+wf.msc
+Use code with caution.
+
+Part B: Create a Block Rule for TCP Port 80
+
+3. Start a New Inbound Rule
+In the left pane, click Inbound Rules, then click New Rule... in the right-hand Actions pane.
+4. Select Rule Type, Protocol, and Port
+• Select Port and click Next.
+• Select TCP and Specific local ports, enter 80, and click Next.
+5. Configure Action, Profiles, and Name
+• Select Block the connection and click Next.
+• Check Domain, Private, and Public, then click Next.
+• Enter the rule name Block HTTP Port 80 and click Finish.
+
+Part C: Create an Allow Rule for TCP Port 8080
+
+6. Start a Second Inbound Rule
+Click Inbound Rules → New Rule..., select Port, and click Next.
+7. Select Protocol and Port
+Select TCP and Specific local ports, enter 8080, and click Next.
+8. Configure Action, Profiles, and Name
+• Select Allow the connection and click Next.
+• Check Domain, Private, and Public, then click Next.
+• Enter the rule name Allow TCP Port 8080 and click Finish.
+
+Part D: Prepare the Linux / Kali System
+
+9. Update Packages and Install Nmap
+Open the Terminal in Kali Linux and update the package list.
+bash
+sudo apt update
+Use code with caution.
+Install Nmap on the Linux system.
+bash
+sudo apt install nmap -y
+Use code with caution.
+Verify that Nmap installed properly.
+bash
+nmap --version
+Use code with caution.
+
+Part E: Configure Network and Check Linux IP
+
+10. Check the Linux IP Address
+Ensure both the Windows Server 2022 VM and Kali Linux VM are set to Host-Only Adapter (or the same internal network) in VirtualBox, then check the Linux IP address (e.g., 192.168.1.20).
+bash
+hostname -I
+Use code with caution.
+
+Part F: Test Connectivity and Scan Firewall Ports
+
+11. Ping the Windows Server
+Send 4 ICMP echo packets to verify network reachability between Kali Linux and Windows Server (192.168.1.10).
+bash
+ping -c 4 192.168.1.10
+Use code with caution.
+12. Scan Ports 80 and 8080 Using Nmap
+Run an Nmap port scan against the Windows Server IP to verify the firewall rules (-Pn skips host discovery; -p specifies target ports).
+bash
+nmap -Pn -p 80,8080 192.168.1.10
+Use code with caution.
+13. Verify Output
+• Port 80 (80/tcp filtered http): Confirms the inbound block rule is actively dropping packets.
+• Port 8080 (8080/tcp open or closed): Confirms the firewall permits packets through port 8080 (showing open if a service is listening, or closed if no service is bound to port 8080).

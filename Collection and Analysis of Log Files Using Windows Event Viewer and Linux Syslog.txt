@@ -1,0 +1,66 @@
+
+Procedure (With Separated Commands)
+
+
+Part A: Windows Server 2022 Event Viewer
+
+1. Open Event Viewer
+Navigate to Server Manager → Tools → Event Viewer, or press Win + R and execute:
+cmd
+eventvwr.msc
+Use code with caution.
+2. Inspect Windows Logs Categories
+In the left navigation pane, expand Event Viewer (Local) → Windows Logs and verify the five log categories:
+• Application
+• Security
+• Setup
+• System
+• Forwarded Events
+3. Examine Recorded Security Events
+• Click Security under Windows Logs.
+• Select an event from the middle pane and inspect its forensic attributes in the General tab: Date and Time, Event ID, Level, User, Computer, and Description.
+4. Generate and Record a Successful Login Event
+• Lock the screen (Win + L) or switch users, then sign in using valid Windows credentials.
+• Open Event Viewer → Windows Logs → Security and click Refresh (F5).
+• Locate the successful logon entry (Event ID 4624) and note down the timestamp, account name, and logon type.
+5. Generate and Record a Failed Login Event
+• Lock the screen or switch users and intentionally enter an incorrect password.
+• Log back in with valid credentials, refresh the Security log, locate the failed logon entry (Event ID 4625), and record the timestamp, target username, and failure reason.
+6. Filter Security Log Events
+• Right-click Security in the left pane and select Filter Current Log...
+• Enter specific Event IDs (such as 4624, 4625), select the Event level or Logged time window, and click OK to isolate authentication events.
+
+Part B: Kali Linux System Logs
+
+1. Open Terminal and Navigate to the Log Directory
+Open the Kali Linux Terminal and move to the standard system log directory.
+bash
+cd /var/log
+Use code with caution.
+List the available log files and journal directories.
+bash
+ls -l
+Use code with caution.
+2. Monitor Live System Journal Entries
+Run journalctl in follow mode to observe real-time system, service, and authentication logs as they are generated (press Ctrl + C to exit live view).
+bash
+journalctl -f
+Use code with caution.
+3. View the Most Recent Log Entries
+Display the last 20 journal entries to examine recent system activities and timestamps.
+bash
+journalctl -n 20
+Use code with caution.
+4. Filter Authentication / Sudo Events (Optional Verification)
+View recent sudo or authentication-related journal entries to correlate user activity.
+bash
+journalctl _COMM=sudo -n 10
+Use code with caution.
+
+Quick Reference: Key Windows Security Event IDs for Your Lab Record
+
+If your instructor asks which specific Event IDs you observed in Steps 4 & 5, you can list these in your observation table:
+• Event ID 4624: An account was successfully logged on.
+• Event ID 4625: An account failed to log on.
+• Event ID 4634: An account was logged off.
+• Event ID 4672: Special privileges assigned to new logon (Administrator login).

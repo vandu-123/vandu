@@ -1,0 +1,147 @@
+
+Procedure (Linux Part – User Authentication and Access Control)
+
+1. Open Terminal and Verify Current User. Open the Terminal in Kali Linux and execute whoami to verify the currently logged-in user account.
+2. Create a New User Account. Run sudo adduser student1 to create a new user. Set and confirm the password, press Enter to skip optional profile details, and type Y to confirm. Verify the user creation with id student1.
+3. Test User Authentication. Run su - student1 and enter the newly created password. Execute whoami to confirm the active session switched to student1, then run exit to return to the primary account.
+4. Create a User Group. Run sudo groupadd dfisusers to create a new group. Verify the group entry in the system database using getent group dfisusers.
+5. Add User to the Group. Execute sudo usermod -aG dfisusers student1 to assign student1 to the dfisusers group. Verify membership using groups student1 or id student1.
+6. Refresh Group Session. Switch to the user account with su - student1 (or log out and log back in) so the new group membership takes effect. Run groups to verify dfisusers appears in the active session, then type exit.
+7. Create a Protected Directory. From the administrative account, create a shared folder using sudo mkdir /dfisdata and inspect its default permissions using ls -ld /dfisdata.
+8. Assign Directory Ownership. Change the owner to student1 and the group to dfisusers by running sudo chown student1:dfisusers /dfisdata. Confirm the ownership change with ls -ld /dfisdata.
+9. Configure Access Control Permissions. Restrict directory permissions using sudo chmod 770 /dfisdata so only the owner (rwx) and group (rwx) have full access while others (---) have no access. Verify with ls -ld /dfisdata (drwxrwx---).
+10. Verify Directory and File Access. Switch to student1 using su - student1, navigate into the directory with cd /dfisdata, create a test file using touch test.txt, and verify write permissions with ls -l.
+11. Demonstrate Authentication vs. Access Control. Verify identity authentication via su - student1 (password check confirming who the user is), and verify authorization/access control via cd /dfisdata and touch test.txt (permission check confirming what the user is allowed to do).
+
+Observations Table
+
+
+Step / Activity	Command Executed	Expected Output / Observation
+User Creation	sudo adduser student1	User student1 created with home directory and UID
+Authentication Test	su - student1 & whoami	Password verified; output displays student1
+Group Creation	sudo groupadd dfisusers	Group dfisusers added to /etc/group
+Group Assignment	sudo usermod -aG dfisusers student1	student1 listed as a member of dfisusers
+Ownership Change	sudo chown student1:dfisusers /dfisdata	Owner set to student1 and group to dfisusers
+Permission Setup	sudo chmod 770 /dfisdata	Permissions display as drwxrwx---
+Access Control Test	cd /dfisdata & touch test.txt	Access granted; test.txt created successfully
+
+
+Result
+
+User authentication and discretionary access control were successfully implemented and verified on Kali Linux. A new user (student1) and group (dfisusers) were created, directory ownership and 770 (rwxrwx---) permissions were configured on /dfisdata, and access rights were validated by authenticating as the user and creating a file inside the protected directory.
+Would you like me to:
+• Combine both the Windows Server and Kali Linux procedures into a single unified lab record document?
+• Add a negative access test (e.g., testing access with an unauthorized user to prove the --- permission blocks others) if your instructor requires proof of denial?
+
+ADD COMMANDS SEPERATELY
+
+Here is the complete Linux Part Procedure with every command placed separately on its own line so you can easily copy it into your practical record book or run it step by step in the terminal.
+
+Procedure (Linux Part – Implementing User Authentication and Access Control)
+
+1. Open Terminal and Check Current User
+Open the Terminal in Kali Linux and verify the currently logged-in username.
+bash
+whoami
+Use code with caution.
+2. Create a New User
+Create a new user account named student1, set the password, press Enter to skip optional details, and confirm with Y.
+bash
+sudo adduser student1
+Use code with caution.
+Verify that the user account has been created.
+bash
+id student1
+Use code with caution.
+3. Test User Authentication
+Switch to the student1 account and enter the newly created password.
+bash
+su - student1
+Use code with caution.
+Confirm that the active session switched to student1.
+bash
+whoami
+Use code with caution.
+Return to the original administrative user session.
+bash
+exit
+Use code with caution.
+4. Create a Group
+Create a new user group named dfisusers.
+bash
+sudo groupadd dfisusers
+Use code with caution.
+Verify that the group exists in the system database.
+bash
+getent group dfisusers
+Use code with caution.
+5. Add User to the Group
+Assign student1 to the dfisusers group.
+bash
+sudo usermod -aG dfisusers student1
+Use code with caution.
+Verify the user's group membership.
+bash
+groups student1
+id student1
+Use code with caution.
+6. Refresh the Login Session
+Log into student1 again so the updated group membership takes effect.
+bash
+su - student1
+Use code with caution.
+Verify that dfisusers appears in the active group list.
+bash
+groups
+Use code with caution.
+Return to the administrative account.
+bash
+exit
+Use code with caution.
+7. Create a Protected Directory
+Create a new directory named /dfisdata.
+bash
+sudo mkdir /dfisdata
+Use code with caution.
+Inspect the default ownership and permissions of the directory.
+bash
+ls -ld /dfisdata
+Use code with caution.
+8. Assign Directory Ownership
+Assign student1 as the owner and dfisusers as the group for /dfisdata.
+bash
+sudo chown student1:dfisusers /dfisdata
+Use code with caution.
+Verify the updated ownership details.
+bash
+ls -ld /dfisdata
+Use code with caution.
+9. Configure Access Control Permissions
+Set permissions to 770 (rwxrwx---) so only the owner and group have full read, write, and execute access while others have no access.
+bash
+sudo chmod 770 /dfisdata
+Use code with caution.
+Verify that the permissions display as drwxrwx---.
+bash
+ls -ld /dfisdata
+Use code with caution.
+10. Test Directory and File Access
+Switch to the student1 account.
+bash
+su - student1
+Use code with caution.
+Navigate into the protected directory.
+bash
+cd /dfisdata
+Use code with caution.
+Create a test file to verify write permissions.
+bash
+touch test.txt
+Use code with caution.
+Confirm that test.txt was created inside the directory.
+bash
+ls -l
+Use code with caution.
+11. Verify Authentication vs. Access Control
+• Authentication (Identity Check): Verified when running su - student1 and entering the password to prove who the user is.
+• Access Control (Permission Check): Verified when executing cd /dfisdata and touch test.txt to confirm what actions the user is permitted to perform.

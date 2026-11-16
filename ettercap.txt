@@ -1,0 +1,86 @@
+
+Procedure (With Separated Commands)
+
+
+Step 1: Prepare the Isolated Lab Environment
+
+1. Start Kali Linux and your authorized target virtual machine (e.g., Windows Server 2022 or a client VM) in VirtualBox.
+2. Ensure both virtual machines are connected to the same isolated network (e.g., Host-Only Adapter or Internal Network) so unrelated devices are not exposed.
+3. Note down the IP addresses of the test machines.
+
+Step 2: Check the Active Network Interface
+
+Open the Terminal in Kali Linux and list all available network interfaces to identify the active interface name (such as eth0 or enp0s3) and its assigned IP address.
+bash
+ip addr
+Use code with caution.
+
+Step 3: Verify Network Connectivity
+
+Test connectivity between Kali Linux and the authorized target machine (replace <target-IP> with the actual IP address, e.g., 192.168.1.10).
+bash
+ping -c 4 <target-IP>
+Use code with caution.
+Confirm that echo replies are received with 0% packet loss.
+
+Step 4: Launch Ettercap and Start Unified Sniffing
+
+Launch the Ettercap graphical interface with administrative privileges.
+bash
+sudo ettercap -G
+Use code with caution.
+1. Enter your Kali Linux password if prompted.
+2. In the top menu bar (or initial setup screen), select Sniff → Unified Sniffing (or click the Accept checkmark after choosing the interface).
+3. Select your active network interface identified in Step 2 (e.g., eth0) and click OK.
+4. Ensure sniffing is active (Start → Start Sniffing or verify the stop icon is active).
+
+Step 5: Discover Hosts on the Lab Network
+
+1. In the Ettercap menu, navigate to Hosts → Scan for Hosts and wait for the scan to finish.
+2. Navigate to Hosts → Hosts List to view all detected devices on the subnet.
+3. Record the IP addresses and MAC addresses of the authorized lab machines.
+
+Step 6: Generate and Observe Test Network Traffic
+
+1. Generate normal network traffic from the authorized test machine (for example, ping Kali Linux from Windows Server, open a local HTTP test page, or run a curl request).
+2. In Ettercap, open View → Connections to monitor active sessions and packet exchanges visible on the interface.
+
+Step 7: Analyse Captured Traffic (Ettercap & Wireshark)
+
+1. Click on any active connection inside Ettercap's Connections window to inspect the Source IP, Destination IP, Protocol, and transmitted payload/headers.
+2. (Optional) To perform deeper packet-level inspection, open a new terminal and launch Wireshark on the same interface:
+bash
+sudo wireshark &
+Use code with caution.
+3. Start capturing on your active interface (eth0) and use display filters in the Wireshark filter bar to isolate specific traffic types:
+text
+arp
+Use code with caution.
+text
+icmp
+Use code with caution.
+text
+tcp
+Use code with caution.
+4. Compare the high-level host/session view in Ettercap with the detailed frame and header breakdown in Wireshark.
+
+Step 8: Stop Monitoring and Close Applications
+
+1. In Ettercap, go to Start → Stop Sniffing.
+2. Close Ettercap and Wireshark cleanly, then document all findings in the observation table.
+
+Observation Table (Sample Lab Record Entries)
+
+
+S. No.	Observation	Recorded Details (Example Values – Replace with Your Lab IPs)
+1	Active network interface	eth0 (or enp0s3)
+2	Local device IP and MAC address	IP: 192.168.1.20, MAC: 08:00:27:xx:xx:xx
+3	Discovered hosts	Target VM – IP: 192.168.1.10, MAC: 08:00:27:yy:yy:yy
+4	Protocols observed	ARP, ICMP, TCP, HTTP, DNS
+5	Traffic direction	Source IP: 192.168.1.20 ↔ Destination IP: 192.168.1.10
+6	Security findings	Plaintext HTTP/ICMP traffic visible on the local segment; no unauthorized ARP spoofing detected during passive sniffing
+
+
+Result
+
+Network traffic was monitored and analysed using Ettercap in an authorised lab environment. The communicating hosts, network protocols, and packet details were examined to understand the application of traffic analysis in network security and digital forensic investigations.

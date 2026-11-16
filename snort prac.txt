@@ -1,0 +1,115 @@
+
+Procedure (With Separated Commands)
+
+
+Step 1: Identify the Active Network Interface
+
+Open the Terminal in Kali Linux and check your network interfaces and default route.
+bash
+ip -br addr
+Use code with caution.
+bash
+ip route
+Use code with caution.
+Note the active interface listed after dev in the default route (for example, eth0 or enp0s3). Ignore lo.
+
+Step 2: Install and Verify Snort 3 and tcpdump
+
+Update the package repository index.
+bash
+sudo apt update
+Use code with caution.
+Install snort and tcpdump.
+bash
+sudo apt install -y snort tcpdump
+Use code with caution.
+Verify that both tools are installed and check the Snort 3 version.
+bash
+snort -V
+Use code with caution.
+bash
+tcpdump --version
+Use code with caution.
+
+Step 3: Create and Verify a Custom ICMP Detection Rule
+
+Create a custom Snort rule file (~/icmp-lab.rules) to detect IPv4 ICMP Echo Requests (itype:8).
+bash
+cat > ~/icmp-lab.rules <<'EOF'
+alert icmp any any -> any any (msg:"ICMP Echo Request Detected"; itype:8; sid:1000001; rev:1;)
+EOF
+Use code with caution.
+Display the contents of the rule file to confirm it was created without line-break or syntax errors.
+bash
+cat ~/icmp-lab.rules
+Use code with caution.
+
+Step 4: Locate the Snort 3 Configuration File
+
+Confirm that the default Lua configuration file (/etc/snort/snort.lua) exists on your Kali system.
+bash
+ls -l /etc/snort/snort.lua
+Use code with caution.
+
+Step 5: Test the Snort Configuration and Custom Rule
+
+Run Snort in configuration test mode (-T) to validate snort.lua alongside your custom rule file (-R).
+bash
+sudo snort -T -c /etc/snort/snort.lua -R ~/icmp-lab.rules
+Use code with caution.
+Verify that Snort exits with a validation success message before proceeding.
+
+Step 6: Capture Live ICMP Test Traffic
+
+Start tcpdump on your active interface (replace eth0 with your interface name from Step 1) to save ICMP packets into /tmp/icmp-lab.pcap.
+bash
+sudo tcpdump -ni eth0 -w /tmp/icmp-lab.pcap icmp
+Use code with caution.
+Leave the first terminal running, open a second terminal, and generate 4 ICMP ping packets to an external or authorized lab target.
+bash
+ping -c 4 8.8.8.8
+Use code with caution.
+Once the 4 pings finish, return to the first terminal and press Ctrl + C to stop the packet capture.
+
+Step 7: Verify the Captured Packets
+
+Check the file size of the capture file to ensure it is not empty.
+bash
+ls -lh /tmp/icmp-lab.pcap
+Use code with caution.
+Read the contents of the .pcap file to verify that ICMP echo request and reply packets were recorded.
+bash
+sudo tcpdump -nn -r /tmp/icmp-lab.pcap
+Use code with caution.
+
+Step 8: Analyse the Packet Capture with Snort 3
+
+Run Snort in offline PCAP inspection mode (-r) using fast console alerts (-A alert_fast) to trigger your custom rule.
+bash
+sudo snort -c /etc/snort/snort.lua -R ~/icmp-lab.rules -r /tmp/icmp-lab.pcap -A alert_fast
+Use code with caution.
+Observe the console output confirming 4 alerts matching "ICMP Echo Request Detected" and SID 1000001.
+
+Step 9: Clean Up Temporary Files
+
+Remove the temporary packet capture file once you have recorded your observations and screenshots.
+bash
+rm -f /tmp/icmp-lab.pcap
+Use code with caution.
+
+Observation Table (Sample Lab Record Entries)
+
+
+Parameter	Observation (Replace Interface/Version with Your Exact Output)
+Tool/version	Snort 3 / Version 3.1.x.x (from snort -V)
+Network interface	eth0 (or enp0s3)
+Capture file	/tmp/icmp-lab.pcap
+Rule SID	1000001 (ICMP Echo Request Detected)
+Traffic generated	ICMP ping (ping -c 4 8.8.8.8)
+Alert generated	Yes (4 alerts triggered for 4 ICMP Echo Requests)
+Detection status	Successful
+
+
+Result
+
+Snort 3 was successfully installed, configured, and tested on Kali Linux using a custom ICMP echo-request detection rule (SID: 1000001). Authorised ICMP ping traffic was captured using tcpdump and analysed offline with Snort 3, generating accurate intrusion alerts and demonstrating signature-based network intrusion detection.

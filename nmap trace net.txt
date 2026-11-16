@@ -1,0 +1,125 @@
+
+Procedure (With Separated Commands)
+
+
+Step 1: Update Linux Package Repository
+
+Open the Terminal in Kali Linux / Ubuntu Linux and update the local package index.
+bash
+sudo apt update
+Use code with caution.
+
+Step 2: Install Nmap, Traceroute, and Netcat
+
+Install Nmap for network scanning.
+bash
+sudo apt install nmap -y
+Use code with caution.
+Install Traceroute for packet path analysis.
+bash
+sudo apt install traceroute -y
+Use code with caution.
+Install Netcat for port reachability and socket testing.
+bash
+sudo apt install netcat-openbsd -y
+Use code with caution.
+
+Step 3: Verify Tool Installations
+
+Verify the installed version of Nmap.
+bash
+nmap --version
+Use code with caution.
+Verify the installed version of Traceroute.
+bash
+traceroute --version
+Use code with caution.
+Verify Netcat help options to confirm installation.
+bash
+nc -h
+Use code with caution.
+
+Part A: Nmap – Network Scanning
+
+(Replace 192.168.1.10 with your authorized target VM's IP address)
+1. Perform a Default TCP Port Scan
+Scan the target IP address to discover open ports.
+bash
+nmap 192.168.1.10
+Use code with caution.
+2. Scan a Specific Port (Port 80 – HTTP)
+Check whether TCP port 80 is open, closed, or filtered.
+bash
+nmap -p 80 192.168.1.10
+Use code with caution.
+3. Identify Running Services and Versions
+Probe open ports to detect exact service names and software versions.
+bash
+nmap -sV 192.168.1.10
+Use code with caution.
+4. Scan Multiple Specific Ports (SSH, HTTP, HTTPS)
+Scan ports 22, 80, and 443 simultaneously.
+bash
+nmap -p 22,80,443 192.168.1.10
+Use code with caution.
+
+Part B: Traceroute – Network Route Analysis
+
+1. Trace the Network Path to Google
+Display all intermediate router hops and round-trip latency times to google.com.
+bash
+traceroute google.com
+Use code with caution.
+2. Trace the Network Path to Example Domain
+Trace the packet route to example.com.
+bash
+traceroute example.com
+Use code with caution.
+3. Limit Maximum Router Hops
+Restrict the trace to a maximum of 5 hops (-m 5).
+bash
+traceroute -m 5 google.com
+Use code with caution.
+
+Part C: Netcat – Network Connection Testing
+
+1. Test Reachability of a Single TCP Port (Port 80)
+Use zero-I/O mode (-z) and verbose output (-v) to check if TCP port 80 is reachable.
+bash
+nc -zv 192.168.1.10 80
+Use code with caution.
+2. Test Reachability of Multiple TCP Ports
+Check TCP ports 22, 80, and 443 in sequence.
+bash
+nc -zv 192.168.1.10 22 80 443
+Use code with caution.
+3. Test Two-Way Local Socket Communication
+• In Terminal 1: Start a Netcat listener on local TCP port 1234.
+bash
+nc -l 1234
+Use code with caution.
+• In Terminal 2: Connect to the local listener on 127.0.0.1 port 1234.
+bash
+nc 127.0.0.1 1234
+Use code with caution.
+• Send Test Message: Type the following text into Terminal 2 and press Enter to verify it appears immediately in Terminal 1:
+text
+Hello from Netcat
+Use code with caution.
+• Press Ctrl + C in both terminals to close the connection.
+
+Observation Table (Sample Lab Record Entries)
+
+
+Tool	Command Executed	Observation (Replace with Your Exact Output)
+Nmap	nmap 192.168.1.10	Host is up; listed open TCP ports (e.g., 21/tcp, 53/tcp, 80/tcp)
+Nmap	nmap -sV 192.168.1.10	Identified running service names and exact software versions
+Traceroute	traceroute google.com	Displayed intermediate router hops, IP addresses, and RTT latency in ms
+Traceroute	traceroute -m 5 google.com	Traced route up to hop 5 and stopped as configured (* shown for non-responding routers)
+Netcat	nc -zv 192.168.1.10 80	Reported whether connection to port 80 succeeded (open) or was refused/filtered
+Netcat	nc 127.0.0.1 1234	Connection established; "Hello from Netcat" received in Terminal 1 listener
+
+
+Result
+
+Nmap, Traceroute, and Netcat were successfully installed and executed in Linux. Basic network scanning, route analysis, and network connectivity testing were performed

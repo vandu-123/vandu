@@ -1,0 +1,66 @@
+
+Practical 8: Security of Database Servers (MySQL and Microsoft SQL Server)
+
+
+Aim
+
+To study common security threats to database servers and understand the security measures used to protect MySQL and Microsoft SQL Server from unauthorized access, data leakage, and attacks.
+
+Theory
+
+A database server stores, organizes, and manages structured data used by applications and organizations. Because databases routinely hold sensitive records—such as personal user data, financial details, authentication credentials, and business records—securing the database server is critical to information security.
+Database security involves protecting the database engine, stored data, user accounts, network communication channels, and backup files from unauthorized access, theft, or tampering.
+
+A. Common Database Security Threats
+
+• Weak Passwords: Easily guessable or default credentials allow attackers to gain unauthorized database access.
+• Excessive Privileges: Granting users more permissions than their role requires increases the damage an attacker can do if an account is compromised.
+• Unpatched Database Software: Running outdated database versions exposes the server to known security flaws and exploits.
+• Unnecessary Network Exposure: Making database ports accessible directly over public or untrusted networks increases the attack surface.
+• SQL Injection: Poorly validated application inputs allow attackers to inject malicious SQL commands and manipulate database queries.
+• Unencrypted Communication: Transmitting database traffic in plaintext exposes queries, credentials, and sensitive results to network interception.
+• Sensitive Data Exposure: Storing confidential records without encryption or masking increases the severity of data breaches.
+• Insufficient Logging: Lack of proper audit logs makes it difficult to detect intrusions or perform digital forensic investigations.
+• Poor Backup Security: Unencrypted or publicly accessible backup files can expose an entire database to theft.
+
+B. Security of MySQL
+
+MySQL is a widely deployed open-source relational database management system (RDBMS). It can be hardened using the following measures:
+• Regular Updates: Keep the MySQL server and its security plugins updated with the latest patches.
+• Strong Account Management: Create individual database accounts instead of sharing the root account, enforce strong password policies, and remove anonymous or unused accounts.
+• Principle of Least Privilege: Grant users only the exact privileges needed for their tasks (for example, granting SELECT only rather than INSERT, UPDATE, DELETE, or ALL PRIVILEGES).
+• Network Restrictions: Bind MySQL to trusted local or internal interfaces and use firewall rules to block unauthorized external connections (default port 3306).
+• Encryption in Transit: Configure SSL/TLS certificates to encrypt traffic between clients and the MySQL server.
+• Data-at-Rest Protection: Use InnoDB tablespace encryption or application-level encryption to safeguard sensitive stored records.
+• Logging and Monitoring: Enable error logs, general query logs, and audit plugins to track failed logins and suspicious queries.
+• Backup Protection: Store backups in restricted directories and encrypt backup files before storage or transfer.
+
+C. Security of Microsoft SQL Server
+
+Microsoft SQL Server is an enterprise relational database management system designed primarily for Windows environments. It can be secured using the following measures:
+• Patch Management: Apply SQL Server cumulative updates, service packs, and Windows Server security patches regularly.
+• Strong Authentication: Prefer Windows Authentication Mode (leveraging Active Directory and Kerberos) over Mixed Mode whenever possible, and disable or rename the default sa (System Administrator) account.
+• Principle of Least Privilege: Assign users to specific database roles (such as db_datareader) instead of high-privilege server roles like sysadmin.
+• Network Isolation: Restrict access to SQL Server ports (default TCP 1433) using Windows Defender Firewall and disable unused network protocols.
+• Encryption in Transit: Enforce TLS encryption for all client-to-server connections to prevent eavesdropping.
+• Encryption at Rest: Use Transparent Data Encryption (TDE) to encrypt physical database files (.mdf, .ldf) and Always Encrypted for sensitive columns.
+• Auditing and Logging: Configure SQL Server Audit and review Windows Event Viewer to monitor login attempts, permission changes, and object access.
+• Backup Security: Apply strict NTFS permissions to backup folders and enable native SQL Server backup encryption.
+
+Comparative Study: MySQL vs. Microsoft SQL Server Security
+
+
+Security Aspect	MySQL	Microsoft SQL Server
+Authentication	Native MySQL user accounts and authentication plugins	Windows Authentication (AD) and SQL Server Authentication
+Authorization & Access	User accounts with granular privileges (GRANT / REVOKE)	Logins, database users, fixed/custom server and database roles
+Least Privilege Control	Privilege-based (SELECT, INSERT, etc.)	Role-based (db_datareader, db_datawriter, etc.)
+Encryption in Transit	TLS / SSL certificates	Forced TLS encryption
+Encryption at Rest	InnoDB tablespace encryption	Transparent Data Encryption (TDE) and Always Encrypted
+Auditing & Logging	Error log, binary log, and MySQL Audit plugins	SQL Server Audit, Error Logs, and Windows Event Viewer
+Network Security	IP binding (bind-address) and host firewall rules	Protocol configuration and Windows Firewall rules (Port 1433)
+Backup Security	OS file permissions and external encryption tools	NTFS permissions and built-in Backup Encryption
+
+
+Result
+
+The common threats to database servers and the security mechanisms used to harden MySQL and Microsoft SQL Server—including strong authentication, least-privilege access control, TLS and at-rest encryption, network isolation, audit logging, and backup protection—were studied and compared.

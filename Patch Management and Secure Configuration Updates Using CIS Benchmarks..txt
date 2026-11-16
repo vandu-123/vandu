@@ -1,0 +1,45 @@
+Practical 6
+Title
+Patch Management and Secure Configuration Updates Using CIS Benchmarks.
+Aim
+To understand the importance of patch management and secure system configuration using CIS
+Benchmarks for improving the security of computer systems.
+Theory
+Patch management is the process of identifying, testing, deploying, and verifying software
+updates that fix security vulnerabilities, bugs, and performance issues. Regular patching
+reduces the attack surface and helps prevent attackers from exploiting known vulnerabilities.
+Secure configuration involves setting operating systems, applications, servers, and network
+devices with security-focused settings. Incorrect or default configurations can create
+vulnerabilities even when the system is fully patched.
+CIS Benchmarks are security configuration recommendations developed by the Center for
+Internet Security (CIS). They provide recommended settings for operating systems, servers,
+databases, cloud platforms, and other technologies.
+The main steps involved are:
+1. Identify systems and software – Determine the operating system, applications,
+versions, and installed components.
+2. Check for available patches – Identify missing security updates and vulnerabilities.
+3. Assess configuration – Compare the current system configuration with the relevant
+CIS Benchmark.
+4. Prioritise changes – Address critical vulnerabilities and high-risk configuration issues
+first.
+5. Apply patches and configuration changes – Install approved updates and modify
+insecure settings.
+
+6. Verify the changes – Check whether patches were successfully installed and CIS-
+recommended settings are correctly applied.
+
+7. Document and monitor – Maintain records of updates and configuration changes and
+continuously monitor the system.
+Example: A Windows Server may have an outdated service containing a known vulnerability.
+Patch management involves installing the appropriate security update. At the same time, a CIS
+Benchmark may recommend disabling unnecessary services, enforcing strong password
+policies, restricting administrative access, and enabling appropriate audit logging.
+
+Thus, patch management addresses software vulnerabilities, while CIS-based secure
+configuration addresses weaknesses caused by insecure settings. Both are important
+components of server security and digital forensic readiness.
+Result
+The importance of patch management and CIS Benchmark-based secure configuration in
+reducing system vulnerabilities and improving overall security was studied.
+Reference
+https://downloads.cisecurity.org/#/

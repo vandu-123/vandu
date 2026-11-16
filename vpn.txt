@@ -1,0 +1,103 @@
+
+Procedure (With Separated Commands & Filters)
+
+
+Step 1: Create a Proton VPN Account
+
+1. Open a web browser and visit https://protonvpn.com/.
+2. Click Get Proton VPN and select the Proton Free plan ($0.00/month).
+3. Register an account with your email address and verify your registration.
+
+Step 2: Download and Install Proton VPN
+
+1. Visit https://protonvpn.com/download and select your operating system (Windows or Linux).
+2. If you are performing this practical on Kali Linux / Debian-based Linux, you can download the .deb repository package and install the app via Terminal:
+bash
+sudo apt update
+Use code with caution.
+bash
+sudo apt install ./protonvpn-stable-release_*.deb -y
+Use code with caution.
+bash
+sudo apt update && sudo apt install proton-vpn-gnome-desktop -y
+Use code with caution.
+(On Windows, simply run the downloaded .exe installer and follow the setup prompts).
+
+Step 3: Check Baseline Public IP (Before VPN)
+
+1. Before connecting to the VPN, open a browser and visit https://whatismyipaddress.com/.
+2. Note down your actual ISP Public IPv4 Address and Approximate Location in the Observation Table.
+
+Step 4: Connect to a Proton VPN Server
+
+1. Launch the Proton VPN application and sign in with your account credentials.
+2. Click Connect (Quick Connect) to connect to an available free VPN server.
+3. Wait until the status displays Connected and note down the assigned VPN Server IP address displayed inside the Proton VPN window.
+
+Step 5: Verify Public IP Change (After VPN)
+
+1. Keep Proton VPN connected and refresh https://whatismyipaddress.com/ in your browser.
+2. Record the new Public IP Address and Location (which now reflect the VPN exit server rather than your physical ISP).
+
+Step 6: Install and Launch Wireshark
+
+1. If Wireshark is not already installed, download it from https://www.wireshark.org/download.html (or launch it on Kali Linux):
+bash
+sudo wireshark &
+Use code with caution.
+2. Select your active physical network interface (e.g., Wi-Fi, Ethernet, eth0, or wlan0) and click Start Capturing Packets (the blue shark-fin icon).
+
+Step 7: Capture and Analyse Encrypted VPN Traffic
+
+1. While Wireshark is capturing and Proton VPN is active, open a browser and visit https://example.com.
+2. Return to Wireshark and apply the following display filters one by one in the filter bar (replace <VPN-server-IP> with the Proton VPN server IP shown in Step 4):
+text
+ip.addr == <VPN-server-IP>
+Use code with caution.
+text
+udp
+Use code with caution.
+text
+tcp
+Use code with caution.
+text
+tls
+Use code with caution.
+3. Inspect the captured packets:
+	• Physical Interface (Wi-Fi/eth0): All traffic flows exclusively between your local IP and the single <VPN-server-IP> over encrypted UDP (WireGuard/OpenVPN) or TCP/TLS packets. Destination website traffic (example.com) is completely hidden inside the encrypted payload.
+	• Virtual Tunnel Interface (tun0 / ProtonVPN): Capturing on the virtual adapter shows the inner unencrypted IP headers before encapsulation.
+
+Step 8: Stop Capture and Save Evidence
+
+1. Disconnect Proton VPN.
+2. Click the red Stop button in Wireshark.
+3. Navigate to File → Save As, name the file VPN_Traffic_Analysis.pcapng, and capture screenshots of the connected Proton VPN app and Wireshark packet list for your record.
+
+Observation Table (Sample Lab Record Entries)
+
+
+1. IP & Location Comparison
+
+
+Observation	Before VPN	After VPN
+Public IP address	103.xx.xx.xx (Your actual ISP IP)	185.159.xx.xx (Assigned Proton VPN server IP)
+Approximate location	Bengaluru, India (Your actual city)	Netherlands / Japan / US (VPN server country)
+VPN connection status	Disconnected	Connected
+Network traffic	Normal unencapsulated ISP traffic	Encrypted VPN tunnel traffic
+
+
+2. Wireshark Capture Observations
+
+
+Parameter	Student Observation (Example Values)
+Network interface	Wi-Fi / eth0 (Physical network adapter)
+VPN protocol	WireGuard / OpenVPN (Smart Protocol)
+Source IP address	192.168.1.20 (Local machine private IP)
+Destination IP address	185.159.xx.xx (Proton VPN server IP)
+Observed transport protocol	UDP (or TCP / TLSv1.3)
+Encrypted traffic observed	Yes (Payload appears as unreadable encrypted data; example.com is not visible)
+
+
+Result
+
+A secure VPN connection was established using Proton VPN. The public IP address was compared before and after connecting, and network traffic was captured and examined using Wireshark to understand encrypted VPN communication.
