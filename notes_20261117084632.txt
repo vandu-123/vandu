@@ -1,0 +1,282 @@
+11.17 8:46 AM
+This is your *End Semester Practical - 60 Marks*. It's only 2 demonstrations + 1 case study + viva. All from Practical 9 and 5 you already did.
+
+Here is exactly what to do in exam hall:
+
+a) Practical Demonstration - Ettercap (20 Marks)
+
+*Aim:* To demonstrate network traffic capture/analysis in authorised lab environment using Ettercap.
+
+*Do this in front of examiner:*
+
+*Step 1: Check Interface*
+
+ip addr
+
+Note interface - `eth0` or `enp0s3` and your IP.
+
+*Step 2: Check Connectivity*
+
+ping -c 4 <target-IP>
+
+Show replies are coming.
+
+*Step 3: Launch Ettercap*
+
+sudo ettercap -G
+
+- Select `Sniff -> Unified Sniffing`
+- Select your interface from Step 1
+- Click OK - Sniffing starts
+
+*Step 4: Discover Hosts*
+- `Hosts -> Scan for Hosts`
+- Wait for scan to finish
+- `Hosts -> Hosts List`
+- Show examiner: IP and MAC of discovered hosts. Point out your authorised test machine.
+
+*Step 5: Generate Traffic + Observe*
+- From test machine, do `ping` or open test web server.
+- In Ettercap, show source IP, destination IP, MAC, protocol.
+- Say this line to examiner:
+> "Ettercap only sees traffic delivered to this interface or visible on this segment. It does not automatically capture all traffic between other two devices without MITM / port mirroring."
+
+*Step 6: Analyse in Wireshark (if asked)*
+- Open Wireshark, select same interface
+- Use filters:
+
+arp
+icmp
+tcp
+
+- Show Source IP, Destination IP, Protocol.
+
+*Step 7: Stop + Document*
+- Stop sniffing, close Ettercap.
+- Fill observation table:
+
+Observation	Details
+Interface	eth0 / enp0s3
+Local IP/MAC	Record
+Discovered Hosts	IP + MAC
+Protocols	ARP, ICMP, TCP
+Traffic Direction	Source -> Destination
+
+*Result to say:* Network traffic was monitored using Ettercap in authorised lab. Hosts, protocols and communication patterns were identified.
+
+*Viva lines for (a):*
+- Ettercap = Sniffing + Host Discovery + MITM testing tool
+- Unified Sniffing = Sniff on one selected interface
+- ARP = Maps IP to MAC
+- Why only lab? Sniffing without permission is illegal.
+
+---
+
+b) Practical Demonstration - Server / Linux Log Files (20 Marks)
+
+*Aim:* To examine server/Linux logs, locate relevant entries, identify suspicious events, explain steps to interpret logs.
+
+*Do this - Do BOTH Windows + Linux, examiner expects both:*
+
+*Part 1: Windows - Event Viewer (10 Marks)*
+
+*Step 1: Open*
+
+Win + R -> eventvwr.msc
+or Server Manager -> Tools -> Event Viewer
+
+*Step 2: Go to Windows Logs*
+
+Event Viewer -> Windows Logs -> Security
+
+Say:
+> Security log is most important for forensics - it has logon, failed logon, account changes.
+
+*Step 3: Show an Event*
+Click any event, show examiner:
+- Date and Time
+- Event ID - 4624 = Successful Logon, 4625 = Failed Logon
+- Level - Information / Warning / Error
+- User, Computer, Description
+
+*Step 4: Generate Live Events (Do this if time)*
+- Log in with correct password -> New 4624 event will come
+- Try wrong password -> New 4625 event will come
+- Refresh Security log and show it
+
+*Step 5: Filter*
+Right-click Security -> `Filter Current Log`
+Filter by Event ID, User, Time period. Say:
+> Filtering helps to find specific activity without scrolling thousands of events.
+
+*Part 2: Linux - Syslog (10 Marks)*
+
+*Step 1: List logs*
+
+ls /var/log/
+
+*Step 2: Check Auth Log*
+
+sudo tail /var/log/auth.log
+
+Say:
+> `auth.log` = Only authentication - login, failed login, sudo, SSH. `syslog` = General system messages.
+
+*Step 3: Generate Event*
+
+su - student1
+whoami
+exit
+sudo tail /var/log/auth.log
+
+Show new entry appeared.
+
+*Step 4: Generate Failed Event*
+Try wrong password for `su - student1`, then again:
+
+sudo tail /var/log/auth.log
+
+Show failed entry.
+
+*Step 5: Check System Log*
+
+sudo tail /var/log/syslog
+
+*What to say for interpretation:*
+For every log entry, read 5 things:
+1. *Timestamp* - When did it happen?
+2. *User* - Which account?
+3. *Service / Process* - sshd, su, login?
+4. *Type* - Success / Failed?
+5. *Message / IP* - From where?
+
+*Observation Table:*
+
+System	Activity	Observation
+Windows	Security log	Logon events found
+Windows	Successful login	Event ID 4624
+Windows	Failed login	Event ID 4625
+Linux	http://auth.log	Authentication events found
+Linux	Failed auth	Failed entry observed
+
+---
+
+c) Case Study - Repeated Failed Logins + Unusual Successful Login (10 Marks)
+
+*This is the MOST important question. Write this as answer:*
+
+*Scenario:* Linux server admin notices repeated failed logins followed by unusual successful login. This is classic *Brute-Force Attack that succeeded.*
+
+*1. How to Investigate - Step by Step:*
+
+*Step 1: Preserve Evidence First - Do NOT reboot / delete logs*
+- Take copy of logs immediately: `sudo cp /var/log/auth.log /tmp/evidence-auth.log`
+- Note hash / time of copy. Logs are volatile evidence.
+
+*Step 2: Check Authentication Log*
+
+sudo grep "Failed password" /var/log/auth.log
+sudo grep "Accepted password" /var/log/auth.log
+sudo grep "Failed" /var/log/auth.log | tail -n 100
+
+Look for:
+- Same IP doing 50-100 failed attempts in short time
+- Same username tried again and again
+- Then suddenly 1 successful login from same IP
+
+*Step 3: Identify Attacker Details*
+From logs, extract:
+- *Source IP* - Attacker IP
+- *Target Username* - Which account was compromised? e.g. `root`, `admin`, `student1`
+- *Time of First Failed* - Attack start time
+- *Time of Successful Login* - Compromise time
+- *Authentication Method* - password / SSH key / sudo
+
+*Step 4: Check What Attacker Did AFTER Login*
+
+sudo grep <attacker-IP> /var/log/auth.log
+sudo tail /var/log/syslog
+last
+who
+history (for compromised user, if available)
+
+Look for:
+- `sudo` commands used after login
+- New user created?
+- Files changed / deleted?
+- Outbound connections?
+
+*Step 5: Correlate with Other Logs*
+- `/var/log/syslog` - Service start/stop, system changes
+- `/var/log/kern.log` - Kernel messages
+- Firewall logs - If any other IP involved
+- Check if same IP attacked other servers
+
+*Step 6: Build Timeline*
+
+10:02 - 10:15 - 120 Failed logins from 192.168.1.50 for user admin
+10:16 - Successful login for admin from same IP
+10:17 - sudo command executed
+10:20 - New user created
+
+This timeline proves it was not a genuine user typo - genuine user does 2-3 fails, not 120.
+
+*2. Evidence to Look For - Write as List:*
+
+Evidence	Why it matters
+Repeated Failed Logins	Proves brute-force attempt
+Source IP	Identifies attacker
+Successful Login from same IP	Proves attack succeeded
+Unusual Time (e.g. 3 AM)	Proves not normal user
+Unusual Location / IP	Proves not normal user
+Sudo / Root activity after login	Shows privilege escalation
+New accounts / Changed passwords	Shows persistence
+Deleted / Modified logs	Shows attacker tried to hide
+
+*3. Immediate Security Actions to Recommend - Write 7 Points:*
+
+1. *Isolate / Block IP Immediately* - Block attacker IP in firewall. Do NOT shut down server before preserving logs.
+2. *Disable Compromised Account* - Lock `admin` account, force password reset. `sudo passwd -l <user>`
+3. *Force Password Reset for All Privileged Users* - Assume passwords are leaked.
+4. *Check for Persistence* - Check new users, SSH keys in `~/.ssh/authorized_keys`, cron jobs, startup scripts.
+5. *Enable Protection* - Enable `fail2ban` to block after 5 failed logins, disable root SSH login, enable MFA / SSH key only.
+6. *Preserve Logs for Forensics* - Copy logs to secure location, calculate hash, maintain chain of custody.
+7. *Report Incident* - Inform security team / management, document timeline, monitor for further attacks.
+
+*One-line Conclusion to Write:*
+> This pattern indicates a successful brute-force attack. Immediate isolation, account lockdown, log preservation and investigation of post-login activity are required.
+
+---
+
+d) Viva Voce (10 Marks) - Prepare These 10
+
+*Q1. What is Ettercap?*
+> Sniffing + Host Discovery + MITM testing tool for authorised lab.
+
+*Q2. What is difference between Ettercap and Wireshark?*
+> Ettercap = Find hosts + sniff + MITM. Wireshark = Deep packet analysis, shows every field inside packet.
+
+*Q3. What is Log File?*
+> Record of events - Date/Time, User, Service, Success/Failure, Message.
+
+*Q4. Which Windows log is most important?*
+> Security log - 4624 Successful, 4625 Failed logon.
+
+*Q5. What is in http://auth.log vs syslog?*
+> http://auth.log = Only authentication. syslog = General system messages.
+
+*Q6. How to identify brute-force from logs?*
+> Many failed logins in short time, same IP, same user, then sudden success.
+
+*Q7. What is Chain of Custody?*
+> Record of who collected, stored, analysed evidence, to prove it was not tampered.
+
+*Q8. Why preserve logs before investigation?*
+> Logs can be overwritten or deleted by attacker. Copy first, analyse copy.
+
+*Q9. What is fail2ban?*
+> Tool that blocks IP after certain failed logins.
+
+*Q10. Why Ettercap does not see all traffic?*
+> Normal interface only sees traffic delivered to it. Need MITM / port mirroring to see others' traffic.
+
